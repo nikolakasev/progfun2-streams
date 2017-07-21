@@ -27,9 +27,11 @@ trait Solver extends GameDef {
     * that are inside the terrain.
     */
   def neighborsWithHistory(b: Block, history: List[Move]): Stream[(Block, List[Move])] = {
+    //one-liner :)
+    //b.legalNeighbors.map(p => (p._1, p._2 :: history)).toStream
     val validNeighbors = b.legalNeighbors
     val validNeighborsWithHistory = validNeighbors.map(p => (p._1, p._2 :: history))
-    validNeighborsWithHistory.toStream #::: neighborsWithHistory(b, history)
+    validNeighborsWithHistory.toStream
   }
 
   /**
@@ -39,7 +41,8 @@ trait Solver extends GameDef {
     */
   def newNeighborsOnly(neighbors: Stream[(Block, List[Move])],
                        explored: Set[Block]): Stream[(Block, List[Move])] = {
-    neighbors.filterNot(p => explored.contains(p._1))
+    //return the blocks that are not explored
+    neighbors.filter(p => !explored.contains(p._1))
   }
 
   /**

@@ -64,6 +64,21 @@ class BloxorzSuite extends FunSuite {
     }
   }
 
+  test("legal neighbors with history level 1") {
+    new Level1 {
+      private val blockAtStart = Block(startPos, startPos)
+      assert(blockAtStart.legalNeighbors == List((Block(Pos(1, 2), Pos(1, 3)), Right), (Block(Pos(2, 1), Pos(3, 1)), Down)))
+
+      private val neighbors = neighborsWithHistory(blockAtStart, List(Left, Up))
+      assert(neighbors.toList == List((Block(Pos(1, 2), Pos(1, 3)), List(Right, Left, Up)), (Block(Pos(2, 1), Pos(3, 1)), List(Down, Left, Up))))
+
+      private val history = Set(Block(Pos(1,2),Pos(1,3)), Block(Pos(1,1),Pos(1,1)))
+      private val newOnly = newNeighborsOnly(neighbors, history)
+
+      assert(newOnly.toList == (Block(Pos(2,1),Pos(3,1)),List(Down, Left, Up)))
+    }
+  }
+
   test("optimal solution for level 1") {
     new Level1 {
       assert(solve(solution) == Block(goal, goal))

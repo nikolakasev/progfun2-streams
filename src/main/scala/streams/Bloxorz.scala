@@ -52,7 +52,7 @@ object Bloxorz extends App {
         |ooooooooo--oooo
         |oSoo-------ooTo
         |oooo-------oooo
-        |oooo--------ooo""".stripMargin
+        |------------ooo""".stripMargin
   }
 
   object Level6 extends Level {
