@@ -40,44 +40,6 @@ class BloxorzSuite extends FunSuite {
     val optsolution = List(Right, Right, Down, Right, Right, Right, Down)
   }
 
-  object Level3 extends Level {
-    val level =
-      """------ooooooo--
-        |oooo--ooo--oo--
-        |ooooooooo--oooo
-        |oSoo-------ooTo
-        |oooo-------oooo
-        |oooo--------ooo""".stripMargin
-  }
-
-  object Level6 extends Level {
-    val level =
-      """-----oooooo----
-        |-----o--ooo----
-        |-----o--ooooo--
-        |Sooooo-----oooo
-        |----ooo----ooTo
-        |----ooo-----ooo
-        |------o--oo----
-        |------ooooo----
-        |------ooooo
-        |-------ooo-----""".stripMargin
-  }
-
-  object Level33 extends Level {
-    val level =
-      """-----oo-ooo----
-        |-----ooooooo---
-        |ooo---oo-ooooo-
-        |oSooooooo--oo--
-        |-----oo-oo-ooo-
-        |-----oooooo-ooo
-        |ooo--oooooo-ooo
-        |oToooo-o--ooo-o
-        |ooo--ooo---oooo
-        |ooo---------ooo""".stripMargin
-  }
-
   test("terrain function level 1") {
     new Level1 {
       assert(terrain(Pos(0, 0)), "0,0")
@@ -108,11 +70,9 @@ class BloxorzSuite extends FunSuite {
     }
   }
 
-
   test("optimal solution length for level 1") {
     new Level1 {
       assert(solution.length == optsolution.length)
     }
   }
-
 }

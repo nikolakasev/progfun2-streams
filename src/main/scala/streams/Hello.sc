@@ -1,3 +1,4 @@
+import streams.Bloxorz
 
 val v2 = Vector(Vector('o', 'o', 'o', '-', '-', '-', '-', '-', '-', '-'), Vector('o', 'S', 'o', 'o', 'o', 'o', '-', '-', '-', '-'), Vector('o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', '-'), Vector('-', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'), Vector('-', '-', '-', '-', '-', 'o', 'o', 'T', 'o', 'o'), Vector('-', '-', '-', '-', '-', '-', 'o', 'o', 'o', '-'))
 
@@ -13,6 +14,13 @@ def streamRange(lo: Int, hi: Int): Stream[Int] =
 streamRange(1, 10).tail
 
 List(1, 2, 3).toStream
+
+def from(n: Int): Stream[Int] = n #:: from(n + 1)
+
+from(9).tail
+
+l.filterNot(_ < 2)
+
 
 
 
