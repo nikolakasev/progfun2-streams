@@ -72,10 +72,10 @@ class BloxorzSuite extends FunSuite {
       private val neighbors = neighborsWithHistory(blockAtStart, List(Left, Up))
       assert(neighbors.toList == List((Block(Pos(1, 2), Pos(1, 3)), List(Right, Left, Up)), (Block(Pos(2, 1), Pos(3, 1)), List(Down, Left, Up))))
 
-      private val history = Set(Block(Pos(1,2),Pos(1,3)), Block(Pos(1,1),Pos(1,1)))
+      private val history = Set(Block(Pos(1, 2), Pos(1, 3)), Block(Pos(1, 1), Pos(1, 1)))
       private val newOnly = newNeighborsOnly(neighbors, history)
 
-      assert(newOnly.toList == (Block(Pos(2,1),Pos(3,1)),List(Down, Left, Up)))
+      assert(newOnly.toList == List((Block(Pos(2, 1), Pos(3, 1)), List(Down, Left, Up))))
     }
   }
 
