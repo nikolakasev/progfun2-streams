@@ -69,7 +69,16 @@ trait Solver extends GameDef {
     * construct the correctly sorted stream.
     */
   def from(initial: Stream[(Block, List[Move])],
-           explored: Set[Block]): Stream[(Block, List[Move])] = ???
+           explored: Set[Block]): Stream[(Block, List[Move])] =
+    if(initial.isEmpty) Stream.empty
+    else {
+      val more = for {
+        path <- initial
+        neighbors = newNeighborsOnly(neighborsWithHistory(path._1, path._2), explored)
+      } yield (path._1, neighbors)
+
+      ???
+    }
 
   /**
     * The stream of all paths that begin at the starting block.
@@ -97,7 +106,9 @@ trait Solver extends GameDef {
     if(pathsToGoal.isEmpty)
       //no solution was found
       List.empty
-    else
+    else {
+      println("paths to goal: " + pathsToGoal.toList)
       //take the first possible path and reverse the moves
       pathsToGoal.toList.head._2.reverse
+    }
 }
