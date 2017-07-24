@@ -1,55 +1,20 @@
-import streams.Bloxorz
+import scala.annotation.tailrec
 
-val v2 = Vector(Vector('o', 'o', 'o', '-', '-', '-', '-', '-', '-', '-'), Vector('o', 'S', 'o', 'o', 'o', 'o', '-', '-', '-', '-'), Vector('o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', '-'), Vector('-', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'), Vector('-', '-', '-', '-', '-', 'o', 'o', 'T', 'o', 'o'), Vector('-', '-', '-', '-', '-', '-', 'o', 'o', 'o', '-'))
+val l = List(("one", streamRange(1, 10000)), ("two", streamRange(11, 20000)), ("three", streamRange(21, 3000)))
 
+def streamRange(begin: Int, end: Int): Stream[Int] =
+  if(begin > end) Stream.empty
+  else begin #:: streamRange(begin + 1, end)
 
-val l = List(1, 2, 3, 4)
+def streamFrom[A](list: List[Stream[A]]) = {
+  @tailrec def concat(streams: List[Stream[A]], acc: Stream[A]): Stream[A] = streams match {
+    case Nil => acc
+    case head :: tail => concat(tail, head #::: acc)
+  }
 
-1 :: l
+  concat(list, Stream.empty)
+}
 
-def streamRange(lo: Int, hi: Int): Stream[Int] =
-  if (lo > hi) Stream.empty
-  else lo #:: streamRange(lo + 1, hi)
+l.unzip._1
 
-streamRange(1, 10).tail
-
-List(1, 2, 3).toStream
-
-def from(n: Int): Stream[Int] = n #:: from(n + 1)
-
-from(9).tail
-
-l.filterNot(_ < 2)
-
-Set(1,2,3,4) + 5
-
-streamRange(1, 4).toList
-
-val s = streamRange(1, 4) #::: streamRange(5, 7) #::: streamRange(8, 19)
-
-s.toList
-
-val more = for {
-  n <- 1 to 2
-} yield streamRange(n*2, n*3)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+streamFrom(l.unzip._2)

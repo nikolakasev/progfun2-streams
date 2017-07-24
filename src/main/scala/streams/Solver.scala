@@ -1,5 +1,7 @@
 package streams
 
+import scala.annotation.tailrec
+
 /**
   * This component implements the solver for the Bloxorz game
   */
@@ -73,12 +75,33 @@ trait Solver extends GameDef {
     if(initial.isEmpty) Stream.empty
     else {
       val more = for {
+        //explore each path
         path <- initial
+        //get all valid neighboring blocks
         neighbors = newNeighborsOnly(neighborsWithHistory(path._1, path._2), explored)
       } yield (path._1, neighbors)
 
-      ???
+      //yields a tuple, so split into two lists:
+      //one with the neighboring blocks and one with streams of possible paths
+      val moreAsTuple = more.toList.unzip
+      val morePaths = streamFrom(moreAsTuple._2)
+      morePaths #::: from(morePaths, explored ++ moreAsTuple._1.toSet)
     }
+
+  /**
+    *
+    * @param list Takes a list of streams
+    * @tparam A
+    * @return A stream of all streams concatenated.
+    */
+  def streamFrom[A](list: List[Stream[A]]) = {
+    @tailrec def concat(streams: List[Stream[A]], acc: Stream[A]): Stream[A] = streams match {
+      case Nil => acc
+      case head :: tail => concat(tail, head #::: acc)
+    }
+
+    concat(list, Stream.empty)
+  }
 
   /**
     * The stream of all paths that begin at the starting block.
@@ -107,7 +130,6 @@ trait Solver extends GameDef {
       //no solution was found
       List.empty
     else {
-      println("paths to goal: " + pathsToGoal.toList)
       //take the first possible path and reverse the moves
       pathsToGoal.toList.head._2.reverse
     }
